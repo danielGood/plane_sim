@@ -2,9 +2,21 @@
 			    var sac = (0.5)*(cd)*(rho)*(a);
 				
 				var drag = new THREE.Vector3(0, 0, 0);
-				drag.setX(sac*v.x*v.x);
-				drag.setY(sac*v.y*v.y);
-				drag.setZ(sac*v.z*v.z);
+				
+				var x =sac*v.x*v.x;
+				var y = sac*v.y*v.y;
+				var z = sac*v.z*v.z;
+				if(v.x<0)
+					x=x*-1;
+				if(v.y<0)
+					y=y*-1;
+				if(v.z<0)
+					z=z*-1;
+				//I am multipling by negative 1 when the velocity is negative bc the signs cancel in the equation
+				drag.setX(x);
+				drag.setY(y);
+				drag.setZ(z);
+				
 				drag.multiplyScalar(-1);
 				return drag;
 			}
@@ -22,7 +34,8 @@
             //a is the area of the wings			
 			function calculate_lift(cl, rho, v, a){
 			    var lift_scalar = (0.5)*(cl)*(rho)*(a)*(v)*(v);
-				
+				if (v<0)
+					lift_scalar=0;
 				var lift = new THREE.Vector3(0,0,0);
 				
 				lift.setY(lift_scalar);
